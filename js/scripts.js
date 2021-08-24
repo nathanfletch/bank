@@ -29,9 +29,6 @@ Bank.prototype.deleteAccount = function(id) {
   delete this.accounts[id];
   return true;
 };
-//delete
-
-
 
 function BankAccount (name, amount) {
   this.name = name;
@@ -39,36 +36,70 @@ function BankAccount (name, amount) {
 }
 
 BankAccount.prototype.deposit = function(money) {
-  this.amount += money
+  
+  this.amount = parseInt(this.amount) + parseInt(money);
 };
 
 BankAccount.prototype.withdraw = function(money) {
-  this.amount -= money
+  
+  this.amount = parseInt(this.amount) - parseInt(money);
 };
 
 
-
-
 //ui logic
+const bank = new Bank;
+//ui functions
+function populateOptions() {
+  let htmlOptions = "";
+  console.log(bank.accounts);
+  Object.keys(bank.accounts).forEach(accountId => {
+    htmlOptions += "<option data-id=" + accountId + ">" + bank.accounts[accountId].name + "</option>"
+  });
+  console.log(htmlOptions);
+  $("#select-account").html(htmlOptions);
+  $("#delete-options").html(htmlOptions);
+}
+
+
 $(document).ready(function () {
 
-const bank = new Bank;
+
+
+  
 
   $("form#register-form").submit(function (event) {
     event.preventDefault();
     const nameInput = $("#name").val();
     const initialInput = $("#initial-deposit").val();
+    
     const newAccount = new BankAccount(nameInput, initialInput);
     bank.register(newAccount);
+    populateOptions();
+    $("#balance-display").text(newAccount.amount);
+
   });
   
   $("form#account-form").submit(function (event) {
     event.preventDefault();
-    const depositInput = $("#deposit").val();
-    const withdrawInput = $("#withdraw").val();
-    //option html 
-    //find
-    $("#display-text").text(text);
+    const accountIdInput = $("#select-account").find(':selected').data('id');
+    const depositInput = parseInt($("#deposit").val()) || 0;
+    const withdrawInput = parseInt($("#withdraw").val()) || 0;
+    const account = bank.findAccount(accountIdInput);
+    //if(depositInput) {} else {}
+    account.deposit(depositInput);
+    account.withdraw(withdrawInput);
+    $("#balance-display").text(account.amount);
   });
+
+  $("form#delete-form").submit(function(event) {
+    event.preventDefault();
+    const accountIdInput = $("#delete-options").find(':selected').data('id');
+    console.log(accountIdInput);
+    // const account = bank.findAccount(accountIdInput);
+    console.log(bank);
+    bank.deleteAccount(accountIdInput);
+    populateOptions();
+    console.log(bank);
+  })
 });
 

@@ -20,25 +20,38 @@
             <label for="initial-deposit">Enter initial deposit: </label>
             <input type="number" min="0" max="10000000" id="initial-deposit" class="form-control" />
           </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div>
       <div class="input-entry">
         <form id="account-form">
           <div class="form-group">
-            
+            <select class="form-control" id="select-account">
+              
+            </select>
           </div>
           <div class="form-group">
             <label for="deposit">Enter amount to deposit: </label>
-            <input type="text" id="deposit" class="form-control" />
+            <input type="number" min="0" max="1000000" id="deposit" class="form-control" />
           </div>
           <div class="form-group">
             <label for="withdraw">Enter amount to withdraw: </label>
-            <input type="text" id="withdraw" class="form-control" />
+            <input type="number" min="0" max="100" id="withdraw" class="form-control" />
           </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-        <div id="display" class="my-3">
-          <p class="my-3">Result: <span id="display-text"></span></p>
+        
+      </div>
+      <div class="input-entry">
+        <div id="balance" class="my-3">
+          <p class="my-3">Balance: <span id="balance-display"></span></p>
         </div>
+      
+        <form id="delete-form">
+          <select name="delete-options" id="delete-options"></select>
+          <br>
+          <button class="btn btn-danger">Delete Account</button>
+        </form>
       </div>
     </div>
   </body>
