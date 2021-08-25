@@ -65,6 +65,7 @@ accounts: {}
 currentId
 findAccount
 
+transfer funds
 
 BankAccount
 name

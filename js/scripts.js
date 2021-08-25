@@ -63,10 +63,6 @@ function populateOptions() {
 
 $(document).ready(function () {
 
-
-
-  
-
   $("form#register-form").submit(function (event) {
     event.preventDefault();
     const nameInput = $("#name").val();
@@ -76,7 +72,7 @@ $(document).ready(function () {
     bank.register(newAccount);
     populateOptions();
     $("#balance-display").text(newAccount.amount);
-    // $("#select-account").attr("selected", newAccount.id)
+    // $("#select-account[data-id=" + newAccount.id + "]").prop("selected", true);
     // $("#select-account").attr("selected", newAccount.id)
     $("#name").val("");
     $("#initial-deposit").val("");
