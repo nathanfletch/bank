@@ -53,7 +53,7 @@ function populateOptions() {
   let htmlOptions = "";
   console.log(bank.accounts);
   Object.keys(bank.accounts).forEach(accountId => {
-    htmlOptions += "<option data-id=" + accountId + ">" + bank.accounts[accountId].name + "</option>"
+    htmlOptions += "<option value=" + accountId + ">" + bank.accounts[accountId].name + "</option>"
   });
   console.log(htmlOptions);
   $("#select-account").html(htmlOptions);
@@ -71,9 +71,9 @@ $(document).ready(function () {
     const newAccount = new BankAccount(nameInput, initialInput);
     bank.register(newAccount);
     populateOptions();
+    $("#select-account").val(newAccount.id).change();
+    $("#delete-options").val(newAccount.id).change();
     $("#balance-display").text(newAccount.amount);
-    // $("#select-account[data-id=" + newAccount.id + "]").prop("selected", true);
-    // $("#select-account").attr("selected", newAccount.id)
     $("#name").val("");
     $("#initial-deposit").val("");
 
@@ -81,13 +81,14 @@ $(document).ready(function () {
   
   $("form#account-form").submit(function (event) {
     event.preventDefault();
-    const accountIdInput = $("#select-account").find(':selected').data('id');
+    const accountIdInput = $("#select-account").find(':selected').val();
     const depositInput = parseInt($("#deposit").val()) || 0;
     const withdrawInput = parseInt($("#withdraw").val()) || 0;
     const account = bank.findAccount(accountIdInput);
     
     account.deposit(depositInput);
     account.withdraw(withdrawInput);
+    $("#delete-options").val(account.id).change();
     $("#balance-display").text(account.amount);
 
     $("#deposit").val("");
@@ -96,14 +97,20 @@ $(document).ready(function () {
 
   $("#delete-options").change(function(event) {
     event.preventDefault();
-    const accountIdInput = $("#delete-options").find(':selected').data('id');
+    // const accountIdInput = $("#delete-options").find(':selected').data('id');
+    const accountIdInput = $("#delete-options").find(':selected').val();
+    
     const account = bank.findAccount(accountIdInput);
+    $("#select-account").val(account.id).change();
+
     $("#balance-display").text(account.amount);
   });
-
+  
   $("form#delete-form").submit(function(event) {
     event.preventDefault();
-    const accountIdInput = $("#delete-options").find(':selected').data('id');
+    const accountIdInput = $("#delete-options").find(':selected').val();
+    // const accountIdInput = $("#delete-options").find(':selected').data('id');
+
     console.log(accountIdInput);
     
     console.log(bank);
