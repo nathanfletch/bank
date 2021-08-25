@@ -76,6 +76,10 @@ $(document).ready(function () {
     bank.register(newAccount);
     populateOptions();
     $("#balance-display").text(newAccount.amount);
+    // $("#select-account").attr("selected", newAccount.id)
+    // $("#select-account").attr("selected", newAccount.id)
+    $("#name").val("");
+    $("#initial-deposit").val("");
 
   });
   
@@ -85,9 +89,19 @@ $(document).ready(function () {
     const depositInput = parseInt($("#deposit").val()) || 0;
     const withdrawInput = parseInt($("#withdraw").val()) || 0;
     const account = bank.findAccount(accountIdInput);
-    //if(depositInput) {} else {}
+    
     account.deposit(depositInput);
     account.withdraw(withdrawInput);
+    $("#balance-display").text(account.amount);
+
+    $("#deposit").val("");
+    $("#withdraw").val("");
+  });
+
+  $("#delete-options").change(function(event) {
+    event.preventDefault();
+    const accountIdInput = $("#delete-options").find(':selected').data('id');
+    const account = bank.findAccount(accountIdInput);
     $("#balance-display").text(account.amount);
   });
 
@@ -95,7 +109,7 @@ $(document).ready(function () {
     event.preventDefault();
     const accountIdInput = $("#delete-options").find(':selected').data('id');
     console.log(accountIdInput);
-    // const account = bank.findAccount(accountIdInput);
+    
     console.log(bank);
     bank.deleteAccount(accountIdInput);
     populateOptions();
